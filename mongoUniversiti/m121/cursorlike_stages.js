@@ -93,3 +93,30 @@ db.solarSystem.aggregate([{
 }, {
   "$sort": { "hasMagneticField": -1, "numberOfMoons": -1 }
 }], { "allowDiskUse": true }).pretty();
+
+
+
+db.movies.aggregate(
+[{"$match": {
+  countries:{$in:["USA"]},"tomatoes.viewer.rating":{$gte:3},cast:{$in:[
+    "Sandra Bullock",
+    "Tom Hanks",
+    "Julia Roberts",
+    "Kevin Spacey",
+    "George Clooney"]}}
+},
+{"$project":{
+  "_id": 0,
+  "title":1,
+  "tomatoes.viewer":1,
+  "num_favs":{ $size : {$setIntersection: ["$cast",  [
+    "Sandra Bullock",
+    "Tom Hanks",
+    "Julia Roberts",
+    "Kevin Spacey",
+    "George Clooney"]]}}
+}},
+{
+  "$sort": { "num_favs": -1, "tomatoes.viewer.rating": -1,"title": -1 }
+},
+{ "$skip": 24  }]).pretty();

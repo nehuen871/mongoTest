@@ -31,3 +31,16 @@ var pipe = [{"$project": { "_id": 0,"tamaño":{$size:{"titlemovi": {$split: ["$t
 
 var pipe = [{"$project": { "_id": 0, "titlemovi": {$split: ["$title", " "]}}}]
 var pipe = [{"$project": { "_id": 0, "titlemovi": {"$size":{"$split": ["$title", " "]}}}},{$match: {"titlemovi":{$eq:1}}}]
+var pipe = [
+    {
+      '$project': {
+        '_id': 0, 
+        'titulo': {
+          '$split': [
+            '$awards', 'Oscar'
+          ]
+        }, 
+        'awards': 1
+      }
+    }
+  ]
